@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>ACME Media</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="theme-color" content="#7952b3">
+    <style>
+        .form-check {
+            float: left;
+            display: inline;
+            margin-right: 10px;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+body {
+    font-family: "Poppins", sans-serif;
+    color: #444444;
+}
+
+
+
+.section-products {
+    padding: 80px 0 54px;
+}
+
+.section-products .header {
+    margin-bottom: 50px;
+}
+
+.section-products .header h3 {
+    font-size: 1rem;
+    color: #fe302f;
+    font-weight: 500;
+}
+
+.section-products .header h2 {
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: #444444; 
+}
+
+.section-products .single-product {
+    margin-bottom: 26px;
+}
+
+.section-products .single-product .part-1 {
+    position: relative;
+    height: 290px;
+    max-height: 290px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.section-products .single-product .part-1::before {
+		position: absolute;
+		content: "";
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		transition: all 0.3s;
+}
+
+.section-products .single-product:hover .part-1::before {
+		transform: scale(1.2,1.2) rotate(5deg);
+}
+
+
+
+.section-products .single-product .part-1 .discount,
+.section-products .single-product .part-1 .new {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    color: #ffffff;
+    background-color: #fe302f;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.section-products .single-product .part-1 .new {
+    left: 0;
+    background-color: #444444;
+}
+
+.section-products .single-product .part-1 ul {
+    position: absolute;
+    bottom: -41px;
+    left: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    opacity: 0;
+    transition: bottom 0.5s, opacity 0.5s;
+}
+
+.section-products .single-product:hover .part-1 ul {
+    bottom: 30px;
+    opacity: 1;
+}
+
+.section-products .single-product .part-1 ul li {
+    display: inline-block;
+    margin-right: 4px;
+}
+
+.section-products .single-product .part-1 ul li a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #ffffff;
+    color: #444444;
+    text-align: center;
+    box-shadow: 0 2px 20px rgb(50 50 50 / 10%);
+    transition: color 0.2s;
+}
+
+
+.section-products .single-product .part-2 .product-title {
+    font-size: 1rem;
+}
+
+.section-products .single-product .part-2 h4 {
+    display: inline-block;
+    font-size: 1rem;
+}
+
+.section-products .single-product .part-2 .product-old-price {
+    position: relative;
+    padding: 0 7px;
+    margin-right: 2px;
+    opacity: 0.6;
+}
+
+.section-products .single-product .part-2 .product-old-price::after {
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #444444;
+    transform: translateY(-50%);
+}
+
+.section-products #product-4 .part-1::before {
+    background-size: cover;
+}
+
+    </style>
+    <link href="https://getbootstrap.com/docs/5.0/examples/checkout/form-validation.css" rel="stylesheet">
+
+</head>
+
+
+
+
+<body class="bg-light">    
+    <%if(do_payment !== "true") {%>
+        <section class="section-products">
+            <div class="container-fluid">
+                    <div class="row justify-content-center text-center">
+                            <div class="col-md-8 col-lg-6">
+                                    <div class="header">
+                                           
+                                            <h2>Acme Media Limited</h2>
+                                    </div>
+                            </div>
+                    </div>
+                    <div class="row">
+    
+                        <% items.forEach((item) => { %>
+                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                <div id="product-<%= item.id %>" class="single-product">
+                                    <a href="<%= item.url %>" style="cursor: pointer;width:1000%;Width:1000%">
+                                  <div class="part-1" style="background: url(<%=item.image%>);">
+                                    <span class="new">new</span>
+                                    <ul>
+                                      <li><i class="fas fa-shopping-cart"></i></li>
+                                      <li><i class="fas fa-heart"></i></li>
+                                      <li><i class="fas fa-plus"></i></li>
+                                      <li><i class="fas fa-expand"></i></li>
+                                    </ul>
+                                  </div>
+                                  <div class="part-2">
+                                    <h3 class="product-title"><%= item.name %></h3>
+                                    <h4 class="product-price">$<%= item.price %></h4>
+                                  </div>
+                                </a>
+                                </div>
+                            </div>
+                          <% }) %>
+                            </div>
+                    </div>
+            </div>
+        </section>
+        <%}%>
+
+        <%if(init_checkout === "true") {%>
+     <div class="container">
+            <h1>Checkout</h1>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><%= id %></td>
+                  <td><%= name %></td>
+                  <td><%= description %></td>
+                  <td><%= price %></td>
+                  <td>1</td>
+                </tr>
+              </tbody>
+            </table>
+       <a href="<%= checkoutUrl %>"><button  class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button></a> 
+        </div>
+        <%}%>
+
+       <div class="container">
+        <%if(do_payment === "true") {%>
+        <main>
+            <div class="py-5 text-center">
+                <h2>Checkout form</h2>
+            </div>
+
+            <div class="row g-5">
+                <div class="col-md-4 col-lg-6 order-md-last">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-primary">Your cart</span>
+                        <span class="badge bg-primary rounded-pill">1</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">  <%= name %></h6>
+                                <h6 class="text-muted"> ID#: <%= id %></h6>
+                                <small class="text-muted">  <%= description %></small>
+                            </div>
+                            <span class="text-muted">$<%= price %></span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total (USD)</span>
+                            <strong>  $<%= price %></strong>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-6">
+                    <h4 class="mb-3">Billing address</h4>
+                    <form class="needs-validation" novalidate  id="payForm" method="POST" action="/payment">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email <span
+                                        class="text-muted">(Optional)</span></label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="you@example.com" value="john.doe@gmail.com">
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address for shipping updates.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" name="address"
+                                    placeholder="1234 Main St" required value="14 Okai Lane, Chrsitian Village Achimota">
+                                <div class="invalid-feedback">
+                                    Please enter your shipping address.
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address2" class="form-label">Address 2 <span
+                                        class="text-muted">(Optional)</span></label>
+                                <input type="text" class="form-control" id="address2" name="addres2"
+                                    placeholder="Apartment or suite" value="APT C1">
+                            </div>
+
+                            <div class="col-md-5">
+                                <label for="country" class="form-label">Country</label>
+                                <select class="form-select" id="country" name="country" required>
+                                    <option value="">Choose...</option>
+                                    <option selected>Ghana</option>
+                                    <option>Nigeria</option>
+                                    <option>Kenya</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a valid country.
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="state" class="form-label">State(Region)</label>
+                                <select class="form-select" id="state" name="state" required>
+                                    <option value="">Choose...</option>
+                                    <option selected>Accra</option>
+                                    <option >Nairobi</option>
+                                    <option >Abuja</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please provide a valid state.
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="zip" class="form-label">Zip Code</label>
+                                <input type="text" class="form-control" id="zip" name="zip" placeholder="" value="00233" required>
+                                <div class="invalid-feedback">
+                                    Zip code required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h4 class="mb-3">Payment</h4>
+
+                        <div class="my-3 row">
+                            <div class="col-md-4">
+                                <input checked value="card" id="credit" name="paymentMethod" type="radio"
+                                    class="form-check-input" required>
+                                <label class="form-check-label" for="credit">Credit card</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input value="momo" id="momo" name="paymentMethod" type="radio"
+                                    class="form-check-input" required>
+                                <label class="form-check-label" for="momo">Mobile Money</label>
+                            </div>
+                        </div>
+                        <hr class="my-4">
+
+                        <div id="credit-card-form" class="row my-3">
+                            <div class="col-md-12">
+                                <label for="cc-name" class="form-label">Name on card</label>
+                                <input type="text" class="form-control" id="cc-name" name="nameOnCard" placeholder=""
+                                    required value="John Star Doe">
+                                <!-- <small class="text-muted">Full name as displayed on card</small> -->
+                                <div class="invalid-feedback">
+                                    Name on card is required
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mt-2">
+                                <label for="cc-number" class="form-label">Credit card number</label>
+                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="" value="2424 5050 9090" required>
+                                <div class="invalid-feedback">
+                                    Credit card number is required
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-6">
+                                <label for="cc-expiration" class="form-label">Expiration</label>
+                                <input type="text" class="form-control" id="expirationDate" name="expirationDate" placeholder="" value="2022/05" required>
+                                <div class="invalid-feedback">
+                                    Expiration date required
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-6">
+                                <label for="cc-cvv" class="form-label">CVV</label>
+                                <input type="text" class="form-control" id="cvv" name="cvv" value="321" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Security code required
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="mobile-money-form" class="row my-3" style="display: none;">
+                            <div class="col-md-12">
+                                <label for="cc-name" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phoneNumber" name="momoNumber" placeholder="" value="+233245893850"
+                                    required value="John Star Doe">
+                                <div class="invalid-feedback">
+                                    Phone Number is Required
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="momo-provider" class="form-label">Network Provider</label>
+                                <select class="form-select" id="momo-provider" name="momo-provider" required>
+                                    <option value="">Choose...</option>
+                                    <option selected>MTN MoMo</option>
+                                    <option>Vodafone Cash</option>
+                                    <option>AirtelTigo Cash</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Network Provider.
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <button id="submitForm" class="w-100 btn btn-success btn-lg" type="submit">
+                            Make Payment
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <%}%>
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">&copy; 2023 Acme Media Ltd</p>
+        </footer>
+    </div>
+    <script src="https://getbootstrap.com/docs/5.0/examples/checkout/form-validation.js"></script>
+
+    <script>
+        function handlePaymentMethodChange(event) {
+            // console.log(event);
+            const creditCardForm = document.getElementById('credit-card-form');
+            const mobileMoneyForm = document.getElementById('mobile-money-form');
+            const creditCardRadio = document.getElementById('credit');
+            const mobileMoneyRadio = document.getElementById('momo');
+
+            if (creditCardRadio.checked) {
+                creditCardForm.style.display = 'block';
+                mobileMoneyForm.style.display = 'none';
+            }else if (mobileMoneyRadio.checked) {
+                creditCardForm.style.display = 'none';
+                mobileMoneyForm.style.display = 'block';
+
+            }
+
+        }
+
+            
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
+            paymentMethodRadios.forEach((radio) => {
+                radio.addEventListener('change', handlePaymentMethodChange);
+            });
+        });
+
+    </script>
+</body>
+
+</html>
