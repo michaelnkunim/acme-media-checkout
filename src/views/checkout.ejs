@@ -18,146 +18,10 @@
         }
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
-body {
-    font-family: "Poppins", sans-serif;
-    color: #444444;
-}
-
-
-
-.section-products {
-    padding: 80px 0 54px;
-}
-
-.section-products .header {
-    margin-bottom: 50px;
-}
-
-.section-products .header h3 {
-    font-size: 1rem;
-    color: #fe302f;
-    font-weight: 500;
-}
-
-.section-products .header h2 {
-    font-size: 2.2rem;
-    font-weight: 400;
-    color: #444444; 
-}
-
-.section-products .single-product {
-    margin-bottom: 26px;
-}
-
-.section-products .single-product .part-1 {
-    position: relative;
-    height: 290px;
-    max-height: 290px;
-    margin-bottom: 20px;
-    overflow: hidden;
-}
-
-.section-products .single-product .part-1::before {
-		position: absolute;
-		content: "";
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		transition: all 0.3s;
-}
-
-.section-products .single-product:hover .part-1::before {
-		transform: scale(1.2,1.2) rotate(5deg);
-}
-
-
-
-.section-products .single-product .part-1 .discount,
-.section-products .single-product .part-1 .new {
-    position: absolute;
-    top: 15px;
-    left: 20px;
-    color: #ffffff;
-    background-color: #fe302f;
-    padding: 2px 8px;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-}
-
-.section-products .single-product .part-1 .new {
-    left: 0;
-    background-color: #444444;
-}
-
-.section-products .single-product .part-1 ul {
-    position: absolute;
-    bottom: -41px;
-    left: 20px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    opacity: 0;
-    transition: bottom 0.5s, opacity 0.5s;
-}
-
-.section-products .single-product:hover .part-1 ul {
-    bottom: 30px;
-    opacity: 1;
-}
-
-.section-products .single-product .part-1 ul li {
-    display: inline-block;
-    margin-right: 4px;
-}
-
-.section-products .single-product .part-1 ul li a {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    background-color: #ffffff;
-    color: #444444;
-    text-align: center;
-    box-shadow: 0 2px 20px rgb(50 50 50 / 10%);
-    transition: color 0.2s;
-}
-
-
-.section-products .single-product .part-2 .product-title {
-    font-size: 1rem;
-}
-
-.section-products .single-product .part-2 h4 {
-    display: inline-block;
-    font-size: 1rem;
-}
-
-.section-products .single-product .part-2 .product-old-price {
-    position: relative;
-    padding: 0 7px;
-    margin-right: 2px;
-    opacity: 0.6;
-}
-
-.section-products .single-product .part-2 .product-old-price::after {
-    position: absolute;
-    content: "";
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #444444;
-    transform: translateY(-50%);
-}
-
-.section-products #product-4 .part-1::before {
-    background-size: cover;
-}
-
     </style>
     <link href="https://getbootstrap.com/docs/5.0/examples/checkout/form-validation.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <script src="https://getbootstrap.com/docs/5.0/examples/checkout/form-validation.js"></script>
 
 </head>
 
@@ -177,60 +41,73 @@ body {
                             </div>
                     </div>
                     <div class="row">
+                        <div class="col-9 row">
+                            <% items.forEach((item) => { %>
+                                <div class="col-md-4 col-lg-4 col-xl-4">
+                                    <div id="product-<%= item.id %>" class="single-product">
+                                        <!-- <a href="<%= item.url %>" style="cursor: pointer;width:1000%;Width:1000%"> -->
+                                      <div class="part-1" style="background: url(<%=item.image%>);">
+                                        <span class="new">new</span>
+                                        <ul>
+                                          <li><i class="fas fa-shopping-cart"></i></li>
+                                          <li><i class="fas fa-heart"></i></li>
+                                          <li><i class="fas fa-plus"></i></li>
+                                          <li><i class="fas fa-expand"></i></li>
+                                        </ul>
+                                      </div>
+                                      <div class="part-2 row m-2">
+                                        <div class="col-md-6 col-lg-6 col-xl-6">
+                                            <h3 class="product-title"><%= item.name %></h3>
+                                            <h4 class="product-price">$<%= item.price %></h4>
+                                        </div>
+                                        <div class="col-md-6 col-lg-6 col-xl-6">
+                                           
+                                    <input type="number" class="form-control input-sm" id="input_<%= item.id %>" 
+                                        placeholder="quantity" value="1">
     
-                        <% items.forEach((item) => { %>
-                            <div class="col-md-4 col-lg-4 col-xl-3">
-                                <div id="product-<%= item.id %>" class="single-product">
-                                    <a href="<%= item.url %>" style="cursor: pointer;width:1000%;Width:1000%">
-                                  <div class="part-1" style="background: url(<%=item.image%>);">
-                                    <span class="new">new</span>
-                                    <ul>
-                                      <li><i class="fas fa-shopping-cart"></i></li>
-                                      <li><i class="fas fa-heart"></i></li>
-                                      <li><i class="fas fa-plus"></i></li>
-                                      <li><i class="fas fa-expand"></i></li>
-                                    </ul>
-                                  </div>
-                                  <div class="part-2">
-                                    <h3 class="product-title"><%= item.name %></h3>
-                                    <h4 class="product-price">$<%= item.price %></h4>
-                                  </div>
-                                </a>
+                                        <button  data-item="<%= JSON.stringify(item) %>" data-id="<%= item.id %>"  class="w-100 mt-1 btn btn-sm btn-primary addToCart" type="button" >Add To Cart </button>
+    
+                                        </div>
+                                      </div>
+                                    <!-- </a> -->
+                                    </div>
                                 </div>
+                              <% }) %>
+                        </div>
+
+                        <div class="col-md-4 col-lg-3 order-md-last">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                              <span class="text-primary">Your cart</span>
+                              <span id="cartItemCount" class="badge bg-primary rounded-pill">Loading...</span>
+                            </h4>
+                            <ul id="cartItemsList" class="list-group mb-3">
+                              <!-- Cart items will be dynamically populated here -->
+                            </ul>
+
+                            <div  class="">
+                             <span id="totalQuantity" class="text-primary"></span>
+                              </div>
+                            <div  class="">
+                             <span id="totalItems" class="text-primary"></span>
                             </div>
-                          <% }) %>
+                            <div id="totalPrice" class="">
+                                <span id="totalPrice" class="text-primary"></span>
                             </div>
+                          
+                            <% if(typeof do_payment === 'undefined') {%>
+                            <a href="/?do_payment=true">
+                              <button id="submitForm" class="w-100 btn btn-primary btn-lg" type="submit">
+                                Go To Checkout   
+                            </a>
+                            <%}%>
+                          </div>
+
+                     </div>
                     </div>
             </div>
         </section>
         <%}%>
 
-        <%if(init_checkout === "true") {%>
-     <div class="container">
-            <h1>Checkout</h1>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><%= id %></td>
-                  <td><%= name %></td>
-                  <td><%= description %></td>
-                  <td><%= price %></td>
-                  <td>1</td>
-                </tr>
-              </tbody>
-            </table>
-       <a href="<%= checkoutUrl %>"><button  class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button></a> 
-        </div>
-        <%}%>
 
        <div class="container">
         <%if(do_payment === "true") {%>
@@ -240,30 +117,28 @@ body {
             </div>
 
             <div class="row g-5">
-                <div class="col-md-4 col-lg-6 order-md-last">
+                <div class="col-md-4 col-lg-4 order-md-last">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-primary">Your cart</span>
-                        <span class="badge bg-primary rounded-pill">1</span>
+                      <span class="text-primary">Your cart</span>
+                      <span id="cartItemCount" class="badge bg-primary rounded-pill">Loading...</span>
                     </h4>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">  <%= name %></h6>
-                                <h6 class="text-muted"> ID#: <%= id %></h6>
-                                <small class="text-muted">  <%= description %></small>
-                            </div>
-                            <span class="text-muted">$<%= price %></span>
-                        </li>
-
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <strong>  $<%= price %></strong>
-                        </li>
+                    <ul id="cartItemsList" class="list-group mb-3">
+                      <!-- Cart items will be dynamically populated here -->
                     </ul>
-                </div>
-                <div class="col-md-4 col-lg-6">
+
+                    <div  class="">
+                     <span id="totalQuantity" class="text-primary"></span>
+                      </div>
+                    <div  class="">
+                     <span id="totalItems" class="text-primary"></span>
+                    </div>
+                    <div id="totalPrice" class="">
+                        <span id="totalPrice" class="text-primary"></span>
+                    </div>
+                  </div>
+                <div class="col-md-4 col-lg-4">
                     <h4 class="mb-3">Billing address</h4>
-                    <form class="needs-validation" novalidate  id="payForm" method="POST" action="/payment">
+                    <form class="needs-validation" novalidate  id="payForm" method="POST" action="/routes/payment">
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="email" class="form-label">Email <span
@@ -291,7 +166,7 @@ body {
                                     placeholder="Apartment or suite" value="APT C1">
                             </div>
 
-                            <div class="col-md-5">
+                            <div class="col-md-12">
                                 <label for="country" class="form-label">Country</label>
                                 <select class="form-select" id="country" name="country" required>
                                     <option value="">Choose...</option>
@@ -304,42 +179,42 @@ body {
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label for="state" class="form-label">State(Region)</label>
                                 <select class="form-select" id="state" name="state" required>
                                     <option value="">Choose...</option>
                                     <option selected>Accra</option>
-                                    <option >Nairobi</option>
-                                    <option >Abuja</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please provide a valid state.
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <label for="zip" class="form-label">Zip Code</label>
-                                <input type="text" class="form-control" id="zip" name="zip" placeholder="" value="00233" required>
+                            <div class="col-md-12">
+                                <label for="zip" class="form-label">Zip</label>
+                                <input type="text" class="form-control" id="zip" name="zip" placeholder="" value="06108" required>
                                 <div class="invalid-feedback">
                                     Zip code required.
                                 </div>
                             </div>
                         </div>
-
+                        </form>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
                         <hr class="my-4">
 
                         <h4 class="mb-3">Payment</h4>
 
                         <div class="my-3 row">
                             <div class="col-md-4">
-                                <input checked value="card" id="credit" name="paymentMethod" type="radio"
-                                    class="form-check-input" required>
+                                <input value="card" id="credit" name="paymentMethod" type="radio"
+                                    class="form-check-input" checked required>
                                 <label class="form-check-label" for="credit">Credit card</label>
                             </div>
                             <div class="col-md-4">
-                                <input value="momo" id="momo" name="paymentMethod" type="radio"
+                                <input value="momo" id="debit" name="paymentMethod" type="radio"
                                     class="form-check-input" required>
-                                <label class="form-check-label" for="momo">Mobile Money</label>
+                                <label class="form-check-label" for="debit">Mobile Money</label>
                             </div>
                         </div>
                         <hr class="my-4">
@@ -357,11 +232,14 @@ body {
 
                             <div class="col-md-12 mt-2">
                                 <label for="cc-number" class="form-label">Credit card number</label>
-                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="" value="2424 5050 9090" required>
+                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="" value="2424505090909090" required>
+                                <span id="validationMessage"></span>
                                 <div class="invalid-feedback">
                                     Credit card number is required
                                 </div>
                             </div>
+
+                            <br/>
 
                             <div class="col-md-6 col-lg-6">
                                 <label for="cc-expiration" class="form-label">Expiration</label>
@@ -383,68 +261,53 @@ body {
                         <div id="mobile-money-form" class="row my-3" style="display: none;">
                             <div class="col-md-12">
                                 <label for="cc-name" class="form-label">Phone Number</label>
-                                <input type="text" class="form-control" id="phoneNumber" name="momoNumber" placeholder="" value="+233245893850"
+                                <input type="text" class="form-control" id="phoneNumber" name="momoNumber" placeholder="" value="+2332458938XX"
                                     required value="John Star Doe">
                                 <div class="invalid-feedback">
                                     Phone Number is Required
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="momo-provider" class="form-label">Network Provider</label>
-                                <select class="form-select" id="momo-provider" name="momo-provider" required>
-                                    <option value="">Choose...</option>
-                                    <option selected>MTN MoMo</option>
-                                    <option>Vodafone Cash</option>
-                                    <option>AirtelTigo Cash</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please provide a valid Network Provider.
                                 </div>
                             </div>
                         </div>
 
                         <hr class="my-4">
 
-                        <button id="submitForm" class="w-100 btn btn-success btn-lg" type="submit">
-                            Make Payment
-                        </button>
+                        <input class="w-100 btn btn-primary btn-lg" type="submit" name="Submit">
+                     
                     </form>
                 </div>
             </div>
         </main>
         <%}%>
         <footer class="my-5 pt-5 text-muted text-center text-small">
-            <p class="mb-1">&copy; 2023 Acme Media Ltd</p>
+            <p class="mb-1">&copy; 2023 Acme Media</p>
         </footer>
     </div>
-    <script src="https://getbootstrap.com/docs/5.0/examples/checkout/form-validation.js"></script>
 
+
+    <script src="js/action.js"></script>
     <script>
-        function handlePaymentMethodChange(event) {
-            // console.log(event);
-            const creditCardForm = document.getElementById('credit-card-form');
-            const mobileMoneyForm = document.getElementById('mobile-money-form');
-            const creditCardRadio = document.getElementById('credit');
-            const mobileMoneyRadio = document.getElementById('momo');
+        const creditCardInput = document.getElementById('cardNumber');
+const validationMessage = document.getElementById('validationMessage');
 
-            if (creditCardRadio.checked) {
-                creditCardForm.style.display = 'block';
-                mobileMoneyForm.style.display = 'none';
-            }else if (mobileMoneyRadio.checked) {
-                creditCardForm.style.display = 'none';
-                mobileMoneyForm.style.display = 'block';
+creditCardInput.addEventListener('input', function() {
+  const creditCardNumber = this.value;
+  const isValid = validateCreditCard(creditCardNumber);
+  console.log(isValid);
+  if (isValid) {
+    validationMessage.textContent = 'Credit card number is valid.';
+    validationMessage.style.color = 'green';
+  } else {
+    validationMessage.textContent = 'Credit card number is invalid.';
+    validationMessage.style.color = 'red';
+  }
+});
 
-            }
+function validateCreditCard(creditCardNumber) {
+  // Regular expression pattern for credit card number validation
+  const regex = /^(?:[0-9]{4}-){3}[0-9]{4}$|^[0-9]{16}$/;
 
-        }
-
-            
-        document.addEventListener("DOMContentLoaded", function(event) { 
-            const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
-            paymentMethodRadios.forEach((radio) => {
-                radio.addEventListener('change', handlePaymentMethodChange);
-            });
-        });
+  return regex.test(creditCardNumber);
+}
 
     </script>
 </body>

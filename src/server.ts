@@ -6,20 +6,22 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
+// Static file middleware
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Body-parser middleware
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'src/public')));
 
-
+// View engine setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-
+// Routes
 app.use('/', checkoutRouter);
 app.use('/checkout', checkoutRouter);
 app.use('/payment', checkoutRouter);
-
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
