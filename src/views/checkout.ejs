@@ -21,7 +21,6 @@
     </style>
     <link href="https://getbootstrap.com/docs/5.0/examples/checkout/form-validation.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
-    <script src="https://getbootstrap.com/docs/5.0/examples/checkout/form-validation.js"></script>
 
 </head>
 
@@ -96,8 +95,8 @@
                           
                             <% if(typeof do_payment === 'undefined') {%>
                             <a href="/?do_payment=true">
-                              <button id="submitForm" class="w-100 btn btn-primary btn-lg" type="submit">
-                                Go To Checkout   
+                              <button  id="submitForm" class="w-100 btn btn-primary btn-lg text-white" type="submit">
+                                <span style="color:white"> Go To Checkout </span>   
                             </a>
                             <%}%>
                           </div>
@@ -116,6 +115,7 @@
                 <h2>Checkout form</h2>
             </div>
 
+            <form class="needs-validation"   id="payForm" method="post" action="/payment">
             <div class="row g-5">
                 <div class="col-md-4 col-lg-4 order-md-last">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -135,16 +135,19 @@
                     <div id="totalPrice" class="">
                         <span id="totalPrice" class="text-primary"></span>
                     </div>
+
+                    <button id="submitForm" class="w-100 btn btn-primary btn-lg" type="button"> Submit</button>
+                    
                   </div>
                 <div class="col-md-4 col-lg-4">
                     <h4 class="mb-3">Billing address</h4>
-                    <form class="needs-validation" novalidate  id="payForm" method="POST" action="/routes/payment">
+                   
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="email" class="form-label">Email <span
                                         class="text-muted">(Optional)</span></label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="you@example.com" value="john.doe@gmail.com">
+                                placeholder="you@example.com" value="johndoe@gmail.com" required>
                                 <div class="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
                                 </div>
@@ -153,7 +156,7 @@
                             <div class="col-12">
                                 <label for="address" class="form-label">Address</label>
                                 <input type="text" class="form-control" id="address" name="address"
-                                    placeholder="1234 Main St" required value="14 Okai Lane, Chrsitian Village Achimota">
+                                    placeholder="1234 Main St" required value="14 Okai Lane, Chrsitian Village Achimota" required>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
@@ -163,7 +166,7 @@
                                 <label for="address2" class="form-label">Address 2 <span
                                         class="text-muted">(Optional)</span></label>
                                 <input type="text" class="form-control" id="address2" name="addres2"
-                                    placeholder="Apartment or suite" value="APT C1">
+                                    placeholder="Apartment or suite" value="APT C2" required>
                             </div>
 
                             <div class="col-md-12">
@@ -192,28 +195,27 @@
 
                             <div class="col-md-12">
                                 <label for="zip" class="form-label">Zip</label>
-                                <input type="text" class="form-control" id="zip" name="zip" placeholder="" value="06108" required>
+                                <input type="text" class="form-control" id="zip" name="zip" placeholder="" value="03400" required>
                                 <div class="invalid-feedback">
                                     Zip code required.
                                 </div>
                             </div>
                         </div>
-                        </form>
-                        </div>
-                        <div class="col-md-4 col-lg-4">
+                  </div>
+                    <div class="col-md-4 col-lg-4">
                         <hr class="my-4">
 
-                        <h4 class="mb-3">Payment</h4>
+                        <h4 class="mb-3">Payment ethod</h4>
 
                         <div class="my-3 row">
                             <div class="col-md-4">
                                 <input value="card" id="credit" name="paymentMethod" type="radio"
-                                    class="form-check-input" checked required>
+                                    class="form-check-input"  >
                                 <label class="form-check-label" for="credit">Credit card</label>
                             </div>
                             <div class="col-md-4">
                                 <input value="momo" id="debit" name="paymentMethod" type="radio"
-                                    class="form-check-input" required>
+                                    class="form-check-input" checked >
                                 <label class="form-check-label" for="debit">Mobile Money</label>
                             </div>
                         </div>
@@ -222,19 +224,20 @@
                         <div id="credit-card-form" class="row my-3">
                             <div class="col-md-12">
                                 <label for="cc-name" class="form-label">Name on card</label>
-                                <input type="text" class="form-control" id="cc-name" name="nameOnCard" placeholder=""
-                                    required value="John Star Doe">
+                                <input type="text" class="form-control" id="nameOnCard" name="nameOnCard" placeholder=""
+                                     value="John Star Doe" pattern="\w+ \w+.*">
                                 <!-- <small class="text-muted">Full name as displayed on card</small> -->
-                                <div class="invalid-feedback">
+                                <div id="nameOnCard_validate_message" class="invalid-feedback">
                                     Name on card is required
                                 </div>
                             </div>
+                            <br/>
 
                             <div class="col-md-12 mt-2">
-                                <label for="cc-number" class="form-label">Credit card number</label>
-                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="" value="2424505090909090" required>
+                                <label for="cardNumber" class="form-label">Credit card number</label>
+                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="" value="2424505090909090">
                                 <span id="validationMessage"></span>
-                                <div class="invalid-feedback">
+                                <div id="cardNumber_validate_message" class="invalid-feedback">
                                     Credit card number is required
                                 </div>
                             </div>
@@ -242,17 +245,17 @@
                             <br/>
 
                             <div class="col-md-6 col-lg-6">
-                                <label for="cc-expiration" class="form-label">Expiration</label>
-                                <input type="text" class="form-control" id="expirationDate" name="expirationDate" placeholder="" value="2022/05" required>
-                                <div class="invalid-feedback">
+                                <label for="expirationDate" class="form-label">Expiration</label>
+                                <input type="text" class="form-control" id="expirationDate" name="expirationDate" placeholder="" onkeyup="validateExpiryDate(event.target.value)" value="2023/07">
+                                <div id="expirationDate_validate_message"  class="invalid-feedback">
                                     Expiration date required
                                 </div>
                             </div>
-
+                            <br/>
                             <div class="col-md-6 col-lg-6">
-                                <label for="cc-cvv" class="form-label">CVV</label>
-                                <input type="text" class="form-control" id="cvv" name="cvv" value="321" placeholder="" required>
-                                <div class="invalid-feedback">
+                                <label for="cvv" class="form-label">CVV</label>
+                                <input type="text" class="form-control" id="cvv" name="cvv" value="324" placeholder="" onkeyup="validateCVV(event.target.value)">
+                                <div id="cvv_validate_message"  class="invalid-feedback">
                                     Security code required
                                 </div>
                             </div>
@@ -260,36 +263,53 @@
 
                         <div id="mobile-money-form" class="row my-3" style="display: none;">
                             <div class="col-md-12">
-                                <label for="cc-name" class="form-label">Phone Number</label>
-                                <input type="text" class="form-control" id="phoneNumber" name="momoNumber" placeholder="" value="+2332458938XX"
-                                    required value="John Star Doe">
-                                <div class="invalid-feedback">
+                                <label for="phoneNumber" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phoneNumber" name="momoNumber" placeholder="" value="+233245893867"
+                                    required >
+                                <div id="phoneNumber_validate_message" class="invalid-feedback ">
                                     Phone Number is Required
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="Network" class="form-label">Network</label>
+                                <select class="form-select" id="network" name="network">
+                                    <option value="">Choose...</option>
+                                    <option  value="mtn">MTN</option>
+                                    <option value="vodafone">Vodafone</option>
+                                    <option value="airtel-tigo">Airtel TIGO</option>
+                                </select>
+                                <div id="networkValidateError" class="invalid-feedback">
+                                    Please select a Service provider
                                 </div>
                             </div>
                         </div>
 
                         <hr class="my-4">
-
-                        <input class="w-100 btn btn-primary btn-lg" type="submit" name="Submit">
-                     
-                    </form>
+                        
+                        <input type="hidden" class="form-control" id="cartTotal" name="cartTotal" placeholder=""  required>
+                        
+                 
                 </div>
             </div>
+        </form>
         </main>
         <%}%>
         <footer class="my-5 pt-5 text-muted text-center text-small">
             <p class="mb-1">&copy; 2023 Acme Media</p>
         </footer>
     </div>
-
-
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="js/action.js"></script>
     <script>
-        const creditCardInput = document.getElementById('cardNumber');
-const validationMessage = document.getElementById('validationMessage');
 
-creditCardInput.addEventListener('input', function() {
+
+
+
+const creditCardInput = document.getElementById('cardNumber');
+const validationMessage = document.getElementById('validationMessage');
+if(creditCardInput !== null){
+    creditCardInput.addEventListener('input', function() {
   const creditCardNumber = this.value;
   const isValid = validateCreditCard(creditCardNumber);
   console.log(isValid);
@@ -302,14 +322,14 @@ creditCardInput.addEventListener('input', function() {
   }
 });
 
-function validateCreditCard(creditCardNumber) {
-  // Regular expression pattern for credit card number validation
-  const regex = /^(?:[0-9]{4}-){3}[0-9]{4}$|^[0-9]{16}$/;
-
-  return regex.test(creditCardNumber);
 }
 
+
+
+
     </script>
+    <script src="https://getbootstrap.com/docs/5.0/examples/checkout/form-validation.js"></script>
+
 </body>
 
 </html>

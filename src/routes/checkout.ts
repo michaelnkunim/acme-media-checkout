@@ -1,8 +1,10 @@
 import express, { Request, Response } from 'express';
 import { readFileSync, writeFileSync } from 'fs';
 import  { URLSearchParams } from 'url';
-import path from 'path';
 import fs  from 'fs';
+import {Validate} from  '../models/validate.model';
+import { Payment } from '../models/payment.model'
+import { ErrorMessageInterface } from '../inteface/error-interface';
 const router = express.Router();
 
 
@@ -18,24 +20,57 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 router.post('/payment', (req: Request, res: Response) => {
+  let errorResults: Record<string, any> [] = [];
   const  data  = req.body;
 
-  const cartItems = JSON.parse(readFileSync('src/data/cart.json', 'utf8'));
-  console.log(cartItems);
-  
-  // Add cart items to paymentInfo
-  const paymentInfo = {
-    ...data,
-    items: cartItems
-  };
+  errorResults = [
+  {field:'phoneNumber',value:false, message: 'Phone Number is Invalid'},
+  {field:'cardNumber',value:false, message: 'Card Number is Invalid'},
+  {field:'expirationDate',value:false, message: 'Invalid Exipry Date'},
+  ]
 
-  console.log(paymentInfo);
-  
+  // if(data.paymentMethod === 'momo'){
 
-  const payments = JSON.parse(readFileSync('src/data/payments.json', 'utf8'));
-  payments.push(paymentInfo);
-  writeFileSync('src/data/payments.json', JSON.stringify(payments));
-  res.send({data,message:'Payment Successful'});
+  //   const isValidPhoneNumber = Validate.validatePhoneNumber(data.momoNumber);
+  //   if(!isValidPhoneNumber){
+  //     errorResults.push({field:'momoNumber',value: isValidPhoneNumber,message:'PhoneNumber is Invalid'});
+  //   }
+
+  //   if(isValidPhoneNumber && data.network){
+  //     const payStatus = Payment.makePayment(data);
+  //    return res.send({status:200, errors:errorResults,message:'',payStatus});
+  //    }else{
+  //     return res.send({status:401,errors:errorResults,message:'Failed Process Payment'});
+  //    }
+
+  // }else if(data.paymentMethod = 'card'){
+  //   const isValidCardNumber = Validate.validateCreditCard(data.cardNumber);
+  //   if(!isValidCardNumber){
+  //     errorResults.push({field:'cardNumber',value: isValidCardNumber, message:'Credit Card Number is Invalid'});
+  //   }
+
+  //   const isValidCardExpiry = Validate.validateExpiryDate(data.expirationDate) && Validate.compareValidExpDate(data.expirationDate);
+  //   if(!isValidCardExpiry){
+  //     errorResults.push({field:'expirationDate',value: isValidCardExpiry, message:'Credit Card Expiry Date is Invalid'});
+  //   }
+  //   const isValidCvv = Validate.validateCVV(data.cvv);
+  //   if(!isValidCvv){
+  //     errorResults.push({field:'cvv',value: isValidCvv, message:'Invalid CVV number'});
+  //   }
+  //   const isValidCardName = Validate.validateCreditCardName(data.nameOnCard);
+  //   if(!isValidCardName){
+  //     errorResults.push({field:'nameOnCard', value: isValidCardName, message:'Card Name is Invalid'});
+  //   }
+
+  //    if(isValidCardNumber && isValidCardExpiry && isValidCvv && isValidCardName){
+  //     const payStatus = Payment.makePayment(data);
+  //     return res.send({status:200, errors:errorResults,message:'',payStatus});
+  //    }else{
+  //     return res.send({status:401,errors:errorResults,message:'Failed Process Payment'});
+  //    }
+  // }
+  //return res.send({data,message:'Payment Successful'});
+  res.send({status:401,errors: errorResults})
 });
 
 
