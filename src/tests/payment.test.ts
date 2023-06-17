@@ -1,4 +1,4 @@
-import { Validate } from '../models/validate.model';
+import { Validate } from "../utils/validate";
 
 describe('Validate', () => {
   describe('validateCreditCard', () => {
@@ -13,8 +13,6 @@ describe('Validate', () => {
       const isValid = Validate.validateCreditCard(validNumber);
       expect(isValid).toBe(true);
     });
-
-    // Add more test cases for different scenarios
   });
 
   describe('validatePhoneNumber', () => {
@@ -96,6 +94,78 @@ describe('Validate', () => {
 
     // Add more test cases for different scenarios
   });
+
+  describe('validateFieldsNotEmpty', () => {
+    test('should return true when all fields are not empty, undefined, or null', () => {
+      const data = {
+        email: 'johndoe@gmail.com',
+        address: '14 Okai Lane, Chrsitian Village Achimota',
+        address2: 'APT C2',
+        country: 'Ghana',
+        state: 'Accra',
+        zip: '03400',
+        paymentMethod: 'momo',
+        nameOnCard: 'John Star Doe',
+        cardNumber: '2424505090909090',
+        expirationDate: '2023/07',
+        cvv: '324',
+        momoNumber: '+233245893867',
+        network: 'vodafone',
+        cartTotal: '1400'
+      };
+  
+      const result = Validate.validateFieldsNotEmpty(data);
+  
+      expect(result).toBe(true);
+    });
+  
+    test('should return false when at least one field is empty, undefined, or null', () => {
+      const data = {
+        email: 'johndoe@gmail.com',
+        address: '',
+        address2: 'APT C2',
+        country: 'Ghana',
+        state: 'Accra',
+        zip: '03400',
+        paymentMethod: 'momo',
+        nameOnCard: 'John Star Doe',
+        cardNumber: '2424505090909090',
+        expirationDate: '2023/07',
+        cvv: '324',
+        momoNumber: '+233245893867',
+        network: 'vodafone',
+        cartTotal: '1400'
+      };
+  
+      const result = Validate.validateFieldsNotEmpty(data);
+     console.log(result)
+      expect(result).toBe(false);
+    });
+  
+    test('should return true when field "address2" is empty, undefined, or null', () => {
+      const data = {
+        email: 'johndoe@gmail.com',
+        address: '14 Okai Lane, Chrsitian Village Achimota',
+        address2: '',
+        country: 'Ghana',
+        state: 'Accra',
+        zip: '03400',
+        paymentMethod: 'momo',
+        nameOnCard: 'John Star Doe',
+        cardNumber: '2424505090909090',
+        expirationDate: '2023/07',
+        cvv: '324',
+        momoNumber: '+233245893867',
+        network: 'vodafone',
+        cartTotal: '1400'
+      };
+  
+      const result = Validate.validateFieldsNotEmpty(data);
+  
+      expect(result).toBe(true);
+    });
+  });
+  
 
 });
 

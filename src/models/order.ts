@@ -1,11 +1,13 @@
 import { readFileSync, writeFileSync } from 'fs';
+import { v4 as uuidv4 } from 'uuid';
+import { OrderStatus } from '../enums/orderStatus.enum';
 
-export class Payment {
+export class Order {
     constructor() {
     }
 
-    static makePayment(data: Record<string, any>): any {
-        let paymentInfo: Record<string, any> = {};
+    static placeOrder(data: Record<string, any>): any {
+        let orderInfo: Record<string, any> = {};
         try {
             const cartItems = JSON.parse(readFileSync('src/data/cart.json', 'utf8'));
             const billingAddres = {
@@ -22,10 +24,12 @@ export class Payment {
                 cardNumber: data.cardNumber,
                 expirationDate: data.expirationDate,
                 cvv: data.cvv,
-                network: data.network,
+                network: data.network || 'N\/A',
                 amount: data.cartTotal
             }
-            paymentInfo = {
+            orderInfo = {
+                transactionId: uuidv4(),
+                transactionStatus:OrderStatus.PENDING,
                 billingAddres,
                 paymentData,
                 cartItems,
@@ -33,13 +37,13 @@ export class Payment {
             };
 
             const payments = JSON.parse(readFileSync('src/data/payments.json', 'utf8'));
-            payments.push(paymentInfo);
+            payments.push(orderInfo);
             writeFileSync('src/data/payments.json', JSON.stringify(payments));
             writeFileSync('src/data/cart.json', JSON.stringify([]));
         } catch (error) {
             return error;
         }
-        return paymentInfo;
+        return orderInfo;
     }
 
 
