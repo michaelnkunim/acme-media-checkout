@@ -193,13 +193,15 @@ function validateCVV(cvv) {
 }
 
 async function postData(formObject) {
+  const cartitemsString = localStorage.getItem('cartItems');
+  cartItems = JSON.parse(cartitemsString) || [];
   try {
     const response = await fetch('http://localhost:3000/payment', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formObject)
+      body: JSON.stringify({formObject,cartItems})
     });
 
     const responseData = await response.json();

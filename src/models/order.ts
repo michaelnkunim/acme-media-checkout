@@ -6,10 +6,9 @@ export class Order {
     constructor() {
     }
 
-    static placeOrder(data: Record<string, any>): any {
+    static placeOrder(data: Record<string, any>, cartItems: Record<string, any> []): any {
         let orderInfo: Record<string, any> = {};
         try {
-            const cartItems = JSON.parse(readFileSync('src/data/cart.json', 'utf8'));
             const billingAddres = {
                 address: data.address,
                 addres2: data.address2,
@@ -39,7 +38,6 @@ export class Order {
             const payments = JSON.parse(readFileSync('src/data/payments.json', 'utf8'));
             payments.push(orderInfo);
             writeFileSync('src/data/payments.json', JSON.stringify(payments));
-            writeFileSync('src/data/cart.json', JSON.stringify([]));
         } catch (error) {
             return error;
         }

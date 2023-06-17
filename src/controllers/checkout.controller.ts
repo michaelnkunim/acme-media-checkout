@@ -7,53 +7,53 @@ import fs  from 'fs';
 export function makeOrder(req: Request, res: Response){
 
     let errorResults: Record<string, any> [] = [];
-    const  data  = req.body;
-
-     if(!Validate.validateFieldsNotEmpty(data)){
+    const  formObject  = req.body.formObject;
+    const  cartItems  = req.body.cartItems;
+     if(!Validate.validateFieldsNotEmpty(formObject)){
        return  res.send({status:401,message:'Required field cannot be empty'});
      };
 
-    if(data.paymentMethod === 'momo'){
+    if(formObject.paymentMethod === 'momo'){
   
-      const isValidPhoneNumber = Validate.validatePhoneNumber(data.momoNumber);
+      const isValidPhoneNumber = Validate.validatePhoneNumber(formObject.momoNumber);
       if(!isValidPhoneNumber){
         errorResults.push({field:'momoNumber',value: isValidPhoneNumber,message:'PhoneNumber is Invalid'});
       }
   
-      if(isValidPhoneNumber && data.network){
-        const payStatus = Order.placeOrder(data);
+      if(isValidPhoneNumber && formObject.network){
+        const payStatus = Order.placeOrder(formObject,cartItems);
        return res.send({status:200, errors:errorResults,message:'',payStatus});
        }else{
         return res.send({status:401,errors:errorResults,message:'Failed Process Payment'});
        }
   
-    }else if(data.paymentMethod = 'card'){
-      const isValidCardNumber = Validate.validateCreditCard(data.cardNumber);
+    }else if(formObject.paymentMethod = 'card'){
+      const isValidCardNumber = Validate.validateCreditCard(formObject.cardNumber);
       if(!isValidCardNumber){
         errorResults.push({field:'cardNumber',value: isValidCardNumber, message:'Credit Card Number is Invalid'});
       }
   
-      const isValidCardExpiry = Validate.validateExpiryDate(data.expirationDate) && Validate.compareValidExpDate(data.expirationDate);
+      const isValidCardExpiry = Validate.validateExpiryDate(formObject.expirationDate) && Validate.compareValidExpDate(formObject.expirationDate);
       if(!isValidCardExpiry){
         errorResults.push({field:'expirationDate',value: isValidCardExpiry, message:'Credit Card Expiry Date is Invalid'});
       }
-      const isValidCvv = Validate.validateCVV(data.cvv);
+      const isValidCvv = Validate.validateCVV(formObject.cvv);
       if(!isValidCvv){
         errorResults.push({field:'cvv',value: isValidCvv, message:'Invalid CVV number'});
       }
-      const isValidCardName = Validate.validateCreditCardName(data.nameOnCard);
+      const isValidCardName = Validate.validateCreditCardName(formObject.nameOnCard);
       if(!isValidCardName){
         errorResults.push({field:'nameOnCard', value: isValidCardName, message:'Card Name is Invalid'});
       }
   
        if(isValidCardNumber && isValidCardExpiry && isValidCvv && isValidCardName){
-        const payStatus = Order.placeOrder(data);
+        const payStatus = Order.placeOrder(formObject,cartItems);
         return res.send({status:200, errors:errorResults,message:'',payStatus});
        }else{
         return res.send({status:401,errors:errorResults,message:'Failed Process Payment'});
        }
     }
-    return res.send({data,message:'Payment Successful'});
+    return res.send({data: formObject,message:'Payment Successful'});
 }
 
 export function addToCart(req: Request, res: Response ){
