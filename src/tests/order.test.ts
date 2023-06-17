@@ -119,12 +119,12 @@ describe('Validate', () => {
       expect(result).toBe(true);
     });
   
-    test('should return false when at least one field is empty, undefined, or null', () => {
+    test('should return false when at least one required field is empty, undefined, or null', () => {
       const data = {
         email: 'johndoe@gmail.com',
         address: '',
         address2: 'APT C2',
-        country: 'Ghana',
+        country: '',
         state: 'Accra',
         zip: '03400',
         paymentMethod: 'momo',
@@ -138,7 +138,6 @@ describe('Validate', () => {
       };
   
       const result = Validate.validateFieldsNotEmpty(data);
-     console.log(result)
       expect(result).toBe(false);
     });
   
