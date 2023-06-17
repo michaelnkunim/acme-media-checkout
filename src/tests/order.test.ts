@@ -164,6 +164,30 @@ describe('Validate', () => {
       expect(result).toBe(true);
     });
   });
+
+
+  describe('validateItemsCount', () => {
+    test('should return true if the items array is not empty', () => {
+      const items = [
+        { id: 1, name: 'Item 1' },
+        { id: 2, name: 'Item 2' },
+        { id: 3, name: 'Item 3' }
+      ];
+  
+      const result = Validate.validateItemsCount(items);
+  
+      expect(result).toBe(true);
+    });
+  
+    test('should return false if the items array is empty', () => {
+      const items: Record<string, any>[] = [];
+  
+      const result = Validate.validateItemsCount(items);
+  
+      expect(result).toBe(false);
+    });
+  });
+  
   
 
 });

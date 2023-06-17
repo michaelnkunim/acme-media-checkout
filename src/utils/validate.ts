@@ -62,5 +62,10 @@ export class Validate {
       }
       return true;
     }
+
+
+   static  validateItemsCount(items: Record<string, any>[]){
+      return items && !items.length ? false : true
+    }
   
 }

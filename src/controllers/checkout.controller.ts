@@ -1,7 +1,7 @@
 import {Validate} from  '../utils/validate';
 import { Order} from '../models/order'
 import { Request, Response } from 'express';
-import fs  from 'fs';
+
 
 
 export function makeOrder(req: Request, res: Response){
@@ -9,6 +9,15 @@ export function makeOrder(req: Request, res: Response){
     let errorResults: Record<string, any> [] = [];
     const  formObject  = req.body.formObject;
     const  cartItems  = req.body.cartItems;
+
+    if(!Validate.validateItemsCount(cartItems)){
+      return  res.send({status:401,message:'Cart Cannot Bemptu'});
+    }
+
+    if(!Validate.validateFieldsNotEmpty(formObject)){
+      return  res.send({status:401,message:'Required field cannot be empty'});
+    };
+
      if(!Validate.validateFieldsNotEmpty(formObject)){
        return  res.send({status:401,message:'Required field cannot be empty'});
      };
@@ -56,42 +65,5 @@ export function makeOrder(req: Request, res: Response){
     return res.send({data: formObject,message:'Payment Successful'});
 }
 
-export function addToCart(req: Request, res: Response ){
-    const itemData = req.body.itemData;
-    fs.readFile('src/data/cart.json', 'utf8', (err, data) => {
-      if (err) {
-        console.error('Error reading cart.json:', err);
-        return res.status(500).send('Error reading cart.json');
-      }
-      let cartItems: any[] = [];
-      if (data) {
-        cartItems = JSON.parse(data);
-      }
-      const newItemData: any = JSON.parse(itemData);
-       newItemData.quantity = req.body.itemQuantity
-      const existingItemIndex = cartItems.findIndex((item: any) => item.id === newItemData.id);
-      if (existingItemIndex > -1) {
-        cartItems.splice(existingItemIndex, 1);
-      }
-      cartItems.push(newItemData);
-      fs.writeFile('src/data/cart.json', JSON.stringify(cartItems), 'utf8', (err) => {
-        if (err) {
-          console.error('Error writing cart.json:', err);
-          return res.status(500).send('Error writing cart.json');
-        }
-        res.send('Item added to cart successfully');
-      });
-  
-    });
-}
 
-export async function getCart(req: Request, res: Response ){
-    try {
-        const cartData = await fs.readFileSync('src/data/cart.json', 'utf8');
-        const cartItems = JSON.parse(cartData);
-        res.json(cartItems);
-      } catch (error) {
-        console.error('Error reading cart.json:', error);
-        res.status(500).send('Error reading cart data');
-      }
-}
+

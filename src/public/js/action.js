@@ -196,7 +196,7 @@ async function postData(formObject) {
   const cartitemsString = localStorage.getItem('cartItems');
   cartItems = JSON.parse(cartitemsString) || [];
   try {
-    const response = await fetch('http://localhost:3000/payment', {
+    const response = await fetch('http://localhost:3000/order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

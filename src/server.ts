@@ -21,7 +21,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Routes
 app.use('/', checkoutRouter);
 app.use('/checkout', checkoutRouter);
-app.use('/payment', checkoutRouter);
+app.use('/order', checkoutRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

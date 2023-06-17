@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { v4 as uuidv4 } from 'uuid';
-import { OrderStatus } from '../enums/orderStatus.enum';
+import { OrderStatus } from './orderStatus.enum';
 
 export class Order {
     constructor() {
@@ -35,9 +35,9 @@ export class Order {
                 timestamp: Date.now()
             };
 
-            const payments = JSON.parse(readFileSync('src/data/payments.json', 'utf8'));
+            const payments = JSON.parse(readFileSync('src/data/order.json', 'utf8'));
             payments.push(orderInfo);
-            writeFileSync('src/data/payments.json', JSON.stringify(payments));
+            writeFileSync('src/data/order.json', JSON.stringify(payments));
         } catch (error) {
             return error;
         }
