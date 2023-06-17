@@ -23,54 +23,54 @@ router.post('/payment', (req: Request, res: Response) => {
   let errorResults: Record<string, any> [] = [];
   const  data  = req.body;
 
-  errorResults = [
-  {field:'phoneNumber',value:false, message: 'Phone Number is Invalid'},
-  {field:'cardNumber',value:false, message: 'Card Number is Invalid'},
-  {field:'expirationDate',value:false, message: 'Invalid Exipry Date'},
-  ]
+  // errorResults = [
+  // {field:'phoneNumber',value:false, message: 'Phone Number is Invalid'},
+  // {field:'cardNumber',value:false, message: 'Card Number is Invalid'},
+  // {field:'expirationDate',value:false, message: 'Invalid Exipry Date'},
+  // ]
 
-  // if(data.paymentMethod === 'momo'){
+  if(data.paymentMethod === 'momo'){
 
-  //   const isValidPhoneNumber = Validate.validatePhoneNumber(data.momoNumber);
-  //   if(!isValidPhoneNumber){
-  //     errorResults.push({field:'momoNumber',value: isValidPhoneNumber,message:'PhoneNumber is Invalid'});
-  //   }
+    const isValidPhoneNumber = Validate.validatePhoneNumber(data.momoNumber);
+    if(!isValidPhoneNumber){
+      errorResults.push({field:'momoNumber',value: isValidPhoneNumber,message:'PhoneNumber is Invalid'});
+    }
 
-  //   if(isValidPhoneNumber && data.network){
-  //     const payStatus = Payment.makePayment(data);
-  //    return res.send({status:200, errors:errorResults,message:'',payStatus});
-  //    }else{
-  //     return res.send({status:401,errors:errorResults,message:'Failed Process Payment'});
-  //    }
+    if(isValidPhoneNumber && data.network){
+      const payStatus = Payment.makePayment(data);
+     return res.send({status:200, errors:errorResults,message:'',payStatus});
+     }else{
+      return res.send({status:401,errors:errorResults,message:'Failed Process Payment'});
+     }
 
-  // }else if(data.paymentMethod = 'card'){
-  //   const isValidCardNumber = Validate.validateCreditCard(data.cardNumber);
-  //   if(!isValidCardNumber){
-  //     errorResults.push({field:'cardNumber',value: isValidCardNumber, message:'Credit Card Number is Invalid'});
-  //   }
+  }else if(data.paymentMethod = 'card'){
+    const isValidCardNumber = Validate.validateCreditCard(data.cardNumber);
+    if(!isValidCardNumber){
+      errorResults.push({field:'cardNumber',value: isValidCardNumber, message:'Credit Card Number is Invalid'});
+    }
 
-  //   const isValidCardExpiry = Validate.validateExpiryDate(data.expirationDate) && Validate.compareValidExpDate(data.expirationDate);
-  //   if(!isValidCardExpiry){
-  //     errorResults.push({field:'expirationDate',value: isValidCardExpiry, message:'Credit Card Expiry Date is Invalid'});
-  //   }
-  //   const isValidCvv = Validate.validateCVV(data.cvv);
-  //   if(!isValidCvv){
-  //     errorResults.push({field:'cvv',value: isValidCvv, message:'Invalid CVV number'});
-  //   }
-  //   const isValidCardName = Validate.validateCreditCardName(data.nameOnCard);
-  //   if(!isValidCardName){
-  //     errorResults.push({field:'nameOnCard', value: isValidCardName, message:'Card Name is Invalid'});
-  //   }
+    const isValidCardExpiry = Validate.validateExpiryDate(data.expirationDate) && Validate.compareValidExpDate(data.expirationDate);
+    if(!isValidCardExpiry){
+      errorResults.push({field:'expirationDate',value: isValidCardExpiry, message:'Credit Card Expiry Date is Invalid'});
+    }
+    const isValidCvv = Validate.validateCVV(data.cvv);
+    if(!isValidCvv){
+      errorResults.push({field:'cvv',value: isValidCvv, message:'Invalid CVV number'});
+    }
+    const isValidCardName = Validate.validateCreditCardName(data.nameOnCard);
+    if(!isValidCardName){
+      errorResults.push({field:'nameOnCard', value: isValidCardName, message:'Card Name is Invalid'});
+    }
 
-  //    if(isValidCardNumber && isValidCardExpiry && isValidCvv && isValidCardName){
-  //     const payStatus = Payment.makePayment(data);
-  //     return res.send({status:200, errors:errorResults,message:'',payStatus});
-  //    }else{
-  //     return res.send({status:401,errors:errorResults,message:'Failed Process Payment'});
-  //    }
-  // }
-  //return res.send({data,message:'Payment Successful'});
-  res.send({status:401,errors: errorResults})
+     if(isValidCardNumber && isValidCardExpiry && isValidCvv && isValidCardName){
+      const payStatus = Payment.makePayment(data);
+      return res.send({status:200, errors:errorResults,message:'',payStatus});
+     }else{
+      return res.send({status:401,errors:errorResults,message:'Failed Process Payment'});
+     }
+  }
+  return res.send({data,message:'Payment Successful'});
+  //res.send({status:401,errors: errorResults})
 });
 
 
@@ -156,20 +156,20 @@ const  getItems = () => {
         //   image: "https://images.pexels.com/photos/1848667/pexels-photo-1848667.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         // }
       ];
-     items.forEach((product:any) => {
-        const params:any = new URLSearchParams();
-        params.append('id', product.id);
-        params.append('name', product.name);
-        params.append('description', product.description);
-        params.append('price', product.price);
-        params.append('quantity', product.quantity);
-        params.append('init_checkout', true);
+    //  items.forEach((product:any) => {
+    //     const params:any = new URLSearchParams();
+    //     params.append('id', product.id);
+    //     params.append('name', product.name);
+    //     params.append('description', product.description);
+    //     params.append('price', product.price);
+    //     params.append('quantity', product.quantity);
+    //     params.append('init_checkout', true);
 
-        const url = new URL('http://localhost:3000');
-        url.search = params.toString();
-        product.url = url.toString();
+    //     const url = new URL('http://localhost:3000');
+    //     url.search = params.toString();
+    //     product.url = url.toString();
 
-      });
+    //   });
 
       return items;
 
