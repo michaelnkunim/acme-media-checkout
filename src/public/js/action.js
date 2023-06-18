@@ -143,6 +143,41 @@ function getCartitems() {
   listItem.className = 'list-group-item d-flex justify-content-between lh-sm';
   const grandTotalMarkup = `<div><span>Grand Total (USD)</span></div><span class="pull-right"><strong>$${cartTotal}</strong></span>`;
   listItem.innerHTML = grandTotalMarkup;
+  cartItemsListElement.appendChild(listItem);
+
+  if(!cartItems.length){
+  const listItem3 = document.createElement('li');
+  listItem3.className = 'list-group-item d-flex justify-content-between lh-sm';
+  const emptyCart = `<div class=''>You have No items in your cart </div>`;
+  listItem3.innerHTML = emptyCart;
+  cartItemsListElement.appendChild(listItem3);
+  }
+
+  const payForm =  document.getElementById('payForm');
+
+  if(cartItems.length && !payForm){
+  const listItem2 = document.createElement('li');
+  listItem2.className = 'list-group-item d-flex justify-content-between lh-sm';
+  const checkoutBtn = `<a href="/?do_payment=true"><button  id="submitForm" class="w-100 mt-2 btn btn-primary btn-lg text-white" type="submit"><span style="color:white"> Go To Checkout </span></buttton></a>`;
+  listItem2.innerHTML = checkoutBtn;
+  cartItemsListElement.appendChild(listItem2);
+  }
+
+  const submitForm =  document.getElementById('submitForm');
+
+  if(submitForm && !cartItems.length){
+   submitForm.style.display = 'none';
+  }
+
+  if(!cartItems.length && submitForm){
+    const listItem4 = document.createElement('li');
+    listItem4.className = 'list-group-item d-flex justify-content-between lh-sm';
+    const backBtnn = `<a href="/"><button  class="w-100 mt-2 btn btn-secondary btn-lg text-white" type="button"><span style="color:white"> Back To Products Page </span></buttton></a>`;
+    listItem4.innerHTML = backBtnn;
+    cartItemsListElement.appendChild(listItem4);
+    }
+
+
   const cartTotalInput = document.getElementById('cartTotal');
   if (cartTotalInput) {
     cartTotalInput.value = cartTotal;
