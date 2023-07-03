@@ -50,17 +50,21 @@ export class Validate {
 
 
     static checkFieldValueNotEmpty(value: any): boolean {
-      return value !== undefined && value !== null && value !== '';
+      const check  = value !== undefined && value !== null && value !== '';
+      return check
     }
   
     static validateFieldsNotEmpty(data: Record<string, any>): boolean {
-      const dataAsArray = Object.entries(data);
+      const errors:any = [];
+      const dataAsArray = Object.entries(data);      
       for (const [key, value] of dataAsArray) {
-        if (key !== 'address2' && !this.checkFieldValueNotEmpty(value)) {
-          return false;
+        if (key !== 'address2' && key !== 'network' && !this.checkFieldValueNotEmpty(value)) {
+          errors.push([key,value]);
+         // console.log('errors',errors);
+         // return false;
         }
       }
-      return true;
+      return errors.length > 0 ? false : true;
     }
 
 
